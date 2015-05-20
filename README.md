@@ -8,5 +8,5 @@ Para ejecutar la aplicación es necesario instalar las dependencias con:
 
 Y arrancar el servidor con:
 
-   $ node app.js
+    $ node app.js
   
