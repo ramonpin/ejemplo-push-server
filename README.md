@@ -9,4 +9,12 @@ Para ejecutar la aplicación es necesario instalar las dependencias con:
 Y arrancar el servidor con:
 
     $ node app.js
-  
+
+##Imagen Docker
+Alternativamente es posible lanzar el servidor como un contenedor docker con:
+
+    $ docker run -it --rm --name push-server -p 8080:8080 ramonpin/ejemplo-push-server
+
+O como un demonio con:
+
+    $ docker run -d --rm --name push-server -p 8080:8080 ramonpin/ejemplo-push-server
