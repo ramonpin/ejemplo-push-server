@@ -1,0 +1,19 @@
+doctype html
+html(lang='es')
+  head
+    title = 'Mi primer chat con Express, Socket.io y Jade.'
+    meta(charset='utf-8')
+    script(src='/socket.io/socket.io.js')
+    script(src='http://code.jquery.com/jquery-1.7.1.min.js')
+    script.
+      var websocket = io.connect();
+      $(document).ready(function() {
+        websocket.emit('prueba');
+      });
+      websocket.on('nuevo_mensaje', function(){
+        $('.mensajes').append("<li>Mensaje recibido desde el servidor.</li>");
+        websocket.emit('prueba');
+      });
+  body
+    h1 Hola mundo
+    ul(class='mensajes')
