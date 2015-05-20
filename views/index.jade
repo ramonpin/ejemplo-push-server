@@ -3,19 +3,23 @@ html(lang='es')
   head
     title = 'Mi primer chat con Express, Socket.io y Jade.'
     meta(charset='utf-8')
+    link(rel='stylesheet', href='/css/styles.css')
     script(src='/socket.io/socket.io.js')
     script(src='http://code.jquery.com/jquery-1.7.1.min.js')
     script.
       var websocket = io.connect();
-      $(document).ready(function() {
-        websocket.emit('prueba');
+      websocket.on('nuevo_mensaje', function(data){
+        if(data['num'] % 10 == 0) {
+          var msgs = $('.mensajes > li');
+          msgs.slideUp(500, function() { msgs.remove() });
+        }
+        $('.mensajes')
+          .append("<li hidden>Mensaje " + data['num'] + " recibido desde el servidor.</li>");
+        $('li[hidden]').fadeIn(1000);
       });
-      websocket.on('nuevo_mensaje', function(){
-        $('.mensajes').append("<li>Mensaje recibido desde el servidor.</li>");
-        setTimeout(function() {
-          websocket.emit('prueba');
-          }, 2000);
+      $(window).on('unload', function() {
+        websocket.disconnect();
       });
   body
-    h1 Hola mundo
+    h1 Receptor de mensajes push
     ul(class='mensajes')

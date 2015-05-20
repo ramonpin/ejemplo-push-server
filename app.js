@@ -13,12 +13,17 @@ app.get('/', function(req, res) {
 // La parte Websockets
 var io = require('socket.io')(server);
 io.on('connection', function(socket){
-  console.log('Se ha recibido una conexion.');
-  socket.on('prueba', function() {
-    console.log('Se ha recibido una solicitud de prueba.');
-    io.sockets.emit('nuevo_mensaje');
-  });
+  console.log('Se ha conectado un cliente.');
 });
+io.on('disconnect', function() {
+  console.log('Se ha desconectado un cliente.')
+})
+
+var n = 0;
+setInterval(function() {
+  n = n +1;
+  io.sockets.emit('nuevo_mensaje', { num: n });
+}, 2000);
 
 // Arrancar el servidor
 server.listen(8080);
