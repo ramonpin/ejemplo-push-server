@@ -12,7 +12,9 @@ html(lang='es')
       });
       websocket.on('nuevo_mensaje', function(){
         $('.mensajes').append("<li>Mensaje recibido desde el servidor.</li>");
-        websocket.emit('prueba');
+        setTimeout(function() {
+          websocket.emit('prueba');
+          }, 2000);
       });
   body
     h1 Hola mundo
