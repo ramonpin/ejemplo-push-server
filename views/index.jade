@@ -1,25 +1,38 @@
 doctype html
 html(lang='es')
   head
-    title = 'Mi primer chat con Express, Socket.io y Jade.'
+    title Mi primer chat con Express, Socket.io y Jade.
     meta(charset='utf-8')
     link(rel='stylesheet', href='/css/styles.css')
     script(src='/socket.io/socket.io.js')
     script(src='http://code.jquery.com/jquery-1.7.1.min.js')
+    script(src='js/handlebars-v3.0.3.js')
+
     script.
-      var websocket = io.connect();
-      websocket.on('nuevo_mensaje', function(data){
-        if(data['num'] % 10 == 0) {
-          var msgs = $('.mensajes > li');
-          msgs.slideUp(500, function() { msgs.remove() });
-        }
-        $('.mensajes')
-          .append("<li hidden>Mensaje " + data['num'] + " recibido desde el servidor.</li>");
-        $('li[hidden]').fadeIn(1000);
+      $(document).ready(function() {
+        var msg = $('#msg-tmplt').html();
+        var msg_tmplt = Handlebars.compile(msg);      
+        var websocket = io.connect();
+        websocket.on('nuevo_mensaje', function(data){
+          if(data['num'] % 5 == 0) {
+            var msgs = $('.mensajes > li');
+            msgs.slideUp(500, function() { msgs.remove() });
+          }
+          data.ts_loc = Math.floor(new Date() / 1000);
+          $('.mensajes').append(msg_tmplt(data));
+          $('li[hidden]').fadeIn(1000);
+        });
+        $(window).on('unload', function() {
+          websocket.disconnect();
+        });
       });
-      $(window).on('unload', function() {
-        websocket.disconnect();
-      });
+
+    script(id='msg-tmplt', type='text/x-handlebars-template')
+      li(hidden)
+        h3 MENSAJE PUSH {{num}}
+        p Mensaje enviado desde el servidor en ts = {{ts}}
+        p Mensaje recibido a las ts = {{ts_loc}}
+
   body
     h1 Receptor de mensajes push
     ul(class='mensajes')
