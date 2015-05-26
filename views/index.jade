@@ -7,6 +7,7 @@ html(lang='es')
     script(src='/socket.io/socket.io.js')
     script(src='http://code.jquery.com/jquery-1.7.1.min.js')
     script(src='js/handlebars-v3.0.3.js')
+    script(src='js/helpers.js')
 
     script.
       $(document).ready(function() {
@@ -18,7 +19,7 @@ html(lang='es')
             var msgs = $('.mensajes > li');
             msgs.slideUp(500, function() { msgs.remove() });
           }
-          data.ts_loc = Math.floor(new Date() / 1000);
+          data.ts_loc = new Date();
           $('.mensajes').append(msg_tmplt(data));
           $('li[hidden]').fadeIn(1000);
         });
@@ -30,8 +31,8 @@ html(lang='es')
     script(id='msg-tmplt', type='text/x-handlebars-template')
       li(hidden)
         h3 MENSAJE PUSH {{num}}
-        p Mensaje enviado desde el servidor en ts = {{ts}}
-        p Mensaje recibido a las ts = {{ts_loc}}
+        p Mensaje enviado desde el servidor en ts = {{format_ts ts}}
+        p Mensaje recibido a las ts = {{format_ts ts_loc}}
 
   body
     h1 Receptor de mensajes push

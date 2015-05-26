@@ -22,7 +22,7 @@ io.on('disconnect', function() {
 var n = 0;
 setInterval(function() {
   n = n +1;
-  io.sockets.emit('nuevo_mensaje', { num: n , ts: Math.floor(new Date() / 1000)});
+  io.sockets.emit('nuevo_mensaje', { num: n , ts: new Date() });
 }, 1000);
 
 // Arrancar el servidor
