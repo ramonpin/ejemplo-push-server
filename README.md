@@ -17,4 +17,4 @@ Alternativamente es posible lanzar el servidor como un contenedor docker con:
 
 O como un demonio con:
 
-    $ docker run -d --rm --name push-server -p 8080:8080 ramonpin/ejemplo-push-server
+    $ docker run -d --name push-server -p 8080:8080 ramonpin/ejemplo-push-server
